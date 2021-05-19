@@ -130,7 +130,7 @@ class LstmCell():
             dh = np.dot(self.w_final.T, dfin)        
             dh += dh_next
             do = dh * tanh(cell_s[t])
-            do = (1-(sigmoid(otpt_s[t])**2))*do
+            do = (sigmoid(otpt_s[t])*(1-sigmoid(otpt_s[t])))*do
             # Update the gradients with respect to the output gate
             w_o_grad += np.dot(do, stacked_s[t].T)
             b_o_grad += do
@@ -144,7 +144,7 @@ class LstmCell():
             b_int_grad += dint
             # Compute the derivative of the input gate and update its gradients
             di = dc * int_s[t]
-            di = (1-(sigmoid(inpt_s[t])**2)) * di
+            di = (sigmoid(otpt_s[t])*(1-sigmoid(otpt_s[t]))) * di
             w_i_grad += np.dot(di, stacked_s[t].T)
             b_i_grad += di
             # Compute the derivative of the forget gate and update its gradients
